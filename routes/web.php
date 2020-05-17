@@ -14,3 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/tanggal', function(){
+    echo tanggal_indonesia(date('Y-m-d'));
+});
+
+Route::get('/terbilang', function(){
+    echo ucwords(terbilang(2650000));
+});

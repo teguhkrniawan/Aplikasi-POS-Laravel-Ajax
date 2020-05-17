@@ -28,7 +28,12 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Helpers/TanngalIndonesia.php",
+            "app/Helpers/FormatUang.php",
+            "app/Helpers/AngkaTebilang.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -37,8 +42,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
