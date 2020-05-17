@@ -11,12 +11,11 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
+// Route::get('/dashboard', function () {
+//     return view('layouts.app');
 // });
 
 Auth::routes();
-
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['web', 'cekuser:1']], function(){
