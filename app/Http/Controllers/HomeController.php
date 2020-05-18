@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (\Auth::user()->level == 1) {
+        if (\Auth::user()->level == 1) { // kalau level user == 1
             return view('home.admin');
         } else {
             return view('home.kasir');

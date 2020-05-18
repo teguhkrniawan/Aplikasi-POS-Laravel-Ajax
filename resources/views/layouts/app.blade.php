@@ -121,10 +121,11 @@
                 <ul class="sidebar-menu">
                     <li class="header">MENU NAVIGASI</li>
                     <!-- Optionally, you can add icons to the links -->
-                    <li><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                    <li><a href="{{ route('home') }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
                     @if (Auth::user()->level == 1)
-                    <li><a href="#"><i class="fa fa-cube"></i> <span>Kategori</span></a></li>
+                    <li><a href="{{ route('kategori.index') }}"><i class="fa fa-cube"></i> <span>Kategori</span></a>
+                    </li>
                     <li><a href="#"><i class="fa fa-cubes"></i> <span>Produk</span></a></li>
                     <li><a href="#"><i class="fa fa-credit-card"></i> <span>Member</span></a></li>
                     <li><a href="#"><i class="fa fa-truck"></i> <span>Supplier</span></a></li>
@@ -250,11 +251,12 @@
     <script src="{{ asset('/adminLTE/bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src=" {{ asset('/adminLTE/dist/js/app.min.js') }}"></script>
+    {{-- DataTables --}}
+    <script src="{{ asset('/adminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('/adminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+    {{-- Validator --}}
+    <script src="{{ asset('js/validator.js') }}"></script>
 
-    <!-- Optionally, you can add Slimscroll and FastClick plugins.
-         Both of these plugins are recommended to enhance the
-         user experience. Slimscroll is required when using the
-         fixed layout. -->
     @yield('script')
 </body>
 

@@ -11,14 +11,11 @@
 |
 */
 
-// Route::get('/dashboard', function () {
-//     return view('layouts.app');
-// });
+Auth::routes(); //route autentikasi (login, register, logout)
+Route::get('/', 'HomeController@index')->name('home'); //route home biasa
 
-Auth::routes();
-Route::get('/', 'HomeController@index')->name('home');
-
+// Route middleware - hak akses admin
 Route::group(['middleware' => ['web', 'cekuser:1']], function(){
-    // URL
-
+    Route::get('kategori/data', 'KategoriController@listData')->name('kategori.data');
+    Route::resource('kategori', 'kategoriController');
 });
