@@ -215,7 +215,7 @@ return [
         /**
          * Tambahan dari programmer
          */
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
     ],

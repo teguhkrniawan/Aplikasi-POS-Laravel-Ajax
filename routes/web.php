@@ -18,4 +18,9 @@ Route::get('/', 'HomeController@index')->name('home'); //route home biasa
 Route::group(['middleware' => ['web', 'cekuser:1']], function(){
     Route::get('kategori/data', 'KategoriController@listData')->name('kategori.data');
     Route::resource('kategori', 'kategoriController');
+
+    Route::get('produk/data', 'ProdukController@listData')->name('produk.data');
+    Route::post('produk/hapus', 'ProdukController@deleteSelected');
+    Route::post('produk/cetak', 'ProdukController@printBarcode');
+    Route::resource('produk', 'ProdukController');
 });
