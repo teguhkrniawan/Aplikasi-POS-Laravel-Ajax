@@ -71,7 +71,8 @@ class KategoriController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kategori = Kategori::find($id);
+        echo \json_encode($kategori);
     }
 
     /**
@@ -83,17 +84,20 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $kategori->nama_kategori = $request['nama'];
+        $kategori->update();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Untuk menghapus data dari database
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $kategori = Kategori::find($id);
+        $kategori->delete();
     }
 }

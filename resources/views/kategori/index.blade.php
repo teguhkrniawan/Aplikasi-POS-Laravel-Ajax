@@ -92,9 +92,45 @@ function addForm(){
     $('#modal-form form')[0].reset();
     $('.modal-title').text('Tambah Kategori');
 };
+
+// function hapus data
+function deleteData(id){
+    if(confirm("Apakah yakin ingin dihapus ?")){
+        $.ajax({
+            url : "kategori/"+id,
+            type : "POST",
+            data : {'_method' : 'DELETE', '_token' : $('meta[name=csrf_token]').attr('content')},
+            success : function(data){
+                table.ajax.reload();
+            },
+            error : function(){
+                alert("Tidak dapat menghapus data");
+            }
+        });
+    }
+}
+
+// function tampil form edit
+function editForm(id){
+   save_method = "edit";
+   $('input[name=_method').val('PATCH');
+   $('#modal-form form')[0].reset();
+   $.ajax({
+       url : "kategori/"+id+"/edit",
+       type : "GET",
+       dataType : "JSON",
+       success : function(data){
+           $('#modal-form').modal('show');
+           $('.modal-title').text('Edit Kategori');
+
+           $('#id').val(data.id_kategori);
+           $('#nama').val(data.nama_kategori);
+       },
+       error : function(){
+           alert("Tidak dapat menampilkan data");
+       }
+   });
+}
    
-
-
-
 </script>
 @endsection
