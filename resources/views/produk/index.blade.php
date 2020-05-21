@@ -18,7 +18,7 @@ Daftar Produk
                 <a onclick="addForm()" class="btn btn-success"><i class="fa fa-plus-circle">
                     </i> Tambah
                 </a>
-                <a onclick="deletAll()" class="btn btn-danger"><i class="fa fa-trash">
+                <a onclick="deleteAll()" class="btn btn-danger"><i class="fa fa-trash">
                     </i> Hapus Semua
                 </a>
                 <a onclick="printBarcode()" class="btn btn-info"><i class="fa fa-barcode">
@@ -147,6 +147,25 @@ function printBarcode(){
         $('#form-produk').attr('target', '_blank').attr('action', "produk/cetak").submit();
     }
 };
+
+// function hapus checkbox yang dipilih
+function deleteAll(){
+    if($('input:checked').length < 1) {
+        alert("Pilih data yang akan dihapus");
+    }else if (confirm("Apakah yakin akan menghapus semua data terpilih ?")){
+        $.ajax({
+            url : 'produk/hapus',
+            type : 'POST',
+            data : $('#form-produk').serialize(),
+            success : function(data){
+                table.ajax.reload();
+            },
+            error : function(){
+                alert("Tidak dapat menghapus data");
+            }
+        });
+    }
+}
 
 </script>
 
