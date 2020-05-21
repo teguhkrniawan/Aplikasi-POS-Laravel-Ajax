@@ -65,8 +65,7 @@ Daftar Produk
 <script type="text/javascript">
     var table, save_method;
 
-    
-
+// Ketika halaman ini pertama kali dijalankan
 $( document ).ready( function(){
     var checkboxes = $( ':checkbox' );
 
