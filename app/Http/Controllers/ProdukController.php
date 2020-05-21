@@ -38,7 +38,7 @@ class ProdukController extends Controller
         foreach ($produk as $list) {
             $no++;
             $row = array();
-            $row[] = "<input type='checkbox'>";
+            $row[] = "<input type='checkbox' name='id[]' value='".$list->id_produk."'>";
             $row[] = $no;
             $row[] = $list->kode_produk;
             $row[] = $list->nama_produk;
@@ -63,25 +63,54 @@ class ProdukController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data produk.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $jml = Produk::where('kode_produk', '=', $request['kode'])->count();
+        if ( $jml < 1 ) {
+            $produk = new Produk;
+            $produk->kode_produk    = $request['kode'];
+            $produk->nama_produk    = $request['nama'];
+            $produk->id_kategori    = $request['kategori'];
+            $produk->merk    = $request['merk'];
+            $produk->harga_beli    = $request['harga_beli'];
+            $produk->diskon    = $request['diskon'];
+            $produk->harga_jual    = $request['harga_jual'];
+            $produk->stok    = $request['stok'];
+            $produk->save();
+
+            echo json_encode(array('msg' => 'success'));
+        } else {
+            echo json_encode(array('msg' => 'error'));
+        }
     }
 
     /**
-     * Display the specified resource.
+     * Display Barcode.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function printBarcode(Request $request)
     {
-        //
+        $dataproduk = array();
+        foreach($request->id as $id) {
+            $produk = Produk::find($id);
+            $dataproduk[] = $produk;
+        }
+        
+        // dd($dataproduk);
+
+        $no = 1;
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+        $pdf = PDF::loadView('produk.barcode', compact('dataproduk', 'no'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream();
+       
     }
 
     /**
