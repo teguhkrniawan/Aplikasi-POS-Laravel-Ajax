@@ -167,6 +167,23 @@ function deleteAll(){
     }
 }
 
+//function hapus satu
+function deleteData(id){
+    if(confirm("Apakah yakin ingin dihapus ?")){
+        $.ajax({
+            url : "produk/"+id,
+            type : "POST",
+            data : {'_method' : 'DELETE', '_token' : $('meta[name=csrf_token]').attr('content')},
+            success : function(data){
+                table.ajax.reload();
+            },
+            error : function(){
+                alert("Tidak dapat menghapus data");
+            }
+        });
+    }
+}
+
 </script>
 
 @endsection

@@ -72,7 +72,7 @@ class KategoriController extends Controller
     public function edit($id)
     {
         $kategori = Kategori::find($id);
-        echo \json_encode($kategori);
+        echo json_encode($kategori);
     }
 
     /**

@@ -144,7 +144,8 @@ class ProdukController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->delete();
     }
 
     public function deleteSelected(Request $request){
