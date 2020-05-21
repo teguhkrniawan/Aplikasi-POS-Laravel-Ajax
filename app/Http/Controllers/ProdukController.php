@@ -49,10 +49,10 @@ class ProdukController extends Controller
             $row[] = $list->diskon ."%";
             $row[] = $list->stok;
             $row[] = '<div class="btn-group">
-                    <a onClick="editForm('.$list->id_kategori.')" class="btn btn-primary btn sm">
+                    <a onClick="editForm('.$list->id_produk.')" class="btn btn-primary btn sm">
                         <i class="fa fa-pencil"></i>
                     </a>
-                    <a onClick="deleteData('.$list->id_kategori.')" class="btn btn-danger btn sm">
+                    <a onClick="deleteData('.$list->id_produk.')" class="btn btn-danger btn sm">
                         <i class="fa fa-trash"></i>
                     </a>
                     </div>';
@@ -121,7 +121,8 @@ class ProdukController extends Controller
      */
     public function edit($id)
     {
-        //
+        $produk = Produk::find($id);
+        echo json_encode($produk);
     }
 
     /**
@@ -133,7 +134,17 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $produk = Produk::find($id);
+        $produk->nama_produk = $request['nama'];
+        $produk->id_kategori = $request['kategori'];
+        $produk->merk = $request['merk'];
+        $produk->harga_beli = $request['harga_beli'];
+        $produk->diskon = $request['diskon'];
+        $produk->harga_jual = $request['harga_jual'];
+        $produk->stok = $request['stok'];
+        $produk->update();
+
+        echo json_encode(array('msg' => 'success'));
     }
 
     /**

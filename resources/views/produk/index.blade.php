@@ -112,8 +112,9 @@ $(function() {
                 url : url,
                 type: "POST",
                 data: $('#modal-form form').serialize(),
+                dataType: 'JSON',
                 success: function(data){
-                   if(data.msg == "error"){
+                   if(data.msg=="error"){
                         alert("Kode Produk sudah digunakan");
                    }else {
                         $('#modal-form').modal('hide');
@@ -133,9 +134,10 @@ $(function() {
 // function tampil form tambah
 function addForm(){
     save_method = "add";
+    $('#modal-form form')[0].reset();
+    $('#kode').attr('readonly', false);
     $('input[name=_method]').val('POST');
     $('#modal-form').modal('show');
-    $('#modal-form form')[0].reset();
     $('.modal-title').text('Tambah Produk');
 };
 
@@ -182,6 +184,35 @@ function deleteData(id){
             }
         });
     }
+}
+
+// function tampil form edit
+function editForm(id){
+   save_method = "edit";
+   $('input[name=_method').val('PATCH');
+   $('#modal-form form')[0].reset();
+   $.ajax({
+       url : "produk/"+id+"/edit",
+       type : "GET",
+       dataType : "JSON",
+       success : function(data){
+           $('#modal-form').modal('show');
+           $('.modal-title').text('Edit Produk');
+
+           $('#id').val(data.id_produk);
+           $('#kode').val(data.kode_produk).attr('readonly', true);
+           $('#nama').val(data.nama_produk);
+           $('#kategori').val(data.id_kategori);
+           $('#merk').val(data.merk);
+           $('#harga_beli').val(data.harga_beli);
+           $('#diskon').val(data.diskon);
+           $('#harga_jual').val(data.harga_jual);
+           $('#stok').val(data.stok);
+       },
+       error : function(){
+           alert("Tidak dapat menampilkan data");
+       }
+   });
 }
 
 </script>
