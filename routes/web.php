@@ -23,4 +23,7 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
     Route::post('produk/hapus', 'ProdukController@deleteSelected');
     Route::post('produk/cetak', 'ProdukController@printBarcode');
     Route::resource('produk', 'ProdukController');
+
+    Route::get('supplier/data', 'SupplierController@listData')->name('supplier.data');
+    Route::resource('supplier', 'SupplierController');
 });
