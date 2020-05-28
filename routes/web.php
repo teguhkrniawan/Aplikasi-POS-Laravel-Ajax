@@ -26,4 +26,8 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
 
     Route::get('supplier/data', 'SupplierController@listData')->name('supplier.data');
     Route::resource('supplier', 'SupplierController');
+
+    Route::get('member/data', 'MemberController@listData')->name('member.data');
+    Route::post('member/cetak', 'MemberController@printCard');
+    Route::resource('member', 'MemberController');
 });
