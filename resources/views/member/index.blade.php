@@ -49,7 +49,7 @@ Daftar Member
     </div>
 </div>
 
-{{-- @include('produk.form') --}}
+@include('member.form')
 @endsection
 
 
@@ -96,9 +96,9 @@ $(function() {
             var id = $('#id').val();
 
             if(save_method == "add")
-                url = "{{ route('produk.store') }}";
+                url = "{{ route('member.store') }}";
             else 
-                url = "produk/"+id;
+                url = "member/"+id;
             
             $.ajax({
                 url : url,
@@ -130,42 +130,24 @@ function addForm(){
     $('#kode').attr('readonly', false);
     $('input[name=_method]').val('POST');
     $('#modal-form').modal('show');
-    $('.modal-title').text('Tambah Produk');
+    $('.modal-title').text('Tambah Member');
 };
 
 // cetak barcode
-function printBarcode(){
+function printCard(){
     if($('input:checked').length < 1) {
         alert("Pilih data yang akan dicetak");
     }else {
-        $('#form-produk').attr('target', '_blank').attr('action', "produk/cetak").submit();
+        $('#form-member').attr('target', '_blank').attr('action', "member/cetak").submit();
     }
 };
 
-// function hapus checkbox yang dipilih
-function deleteAll(){
-    if($('input:checked').length < 1) {
-        alert("Pilih data yang akan dihapus");
-    }else if (confirm("Apakah yakin akan menghapus semua data terpilih ?")){
-        $.ajax({
-            url : 'produk/hapus',
-            type : 'POST',
-            data : $('#form-produk').serialize(),
-            success : function(data){
-                table.ajax.reload();
-            },
-            error : function(){
-                alert("Tidak dapat menghapus data");
-            }
-        });
-    }
-}
 
 //function hapus satu
 function deleteData(id){
     if(confirm("Apakah yakin ingin dihapus ?")){
         $.ajax({
-            url : "produk/"+id,
+            url : "member/"+id,
             type : "POST",
             data : {'_method' : 'DELETE', '_token' : $('meta[name=csrf_token]').attr('content')},
             success : function(data){
@@ -184,22 +166,18 @@ function editForm(id){
    $('input[name=_method').val('PATCH');
    $('#modal-form form')[0].reset();
    $.ajax({
-       url : "produk/"+id+"/edit",
+       url : "member/"+id+"/edit",
        type : "GET",
        dataType : "JSON",
        success : function(data){
            $('#modal-form').modal('show');
-           $('.modal-title').text('Edit Produk');
+           $('.modal-title').text('Edit Member');
 
-           $('#id').val(data.id_produk);
-           $('#kode').val(data.kode_produk).attr('readonly', true);
-           $('#nama').val(data.nama_produk);
-           $('#kategori').val(data.id_kategori);
-           $('#merk').val(data.merk);
-           $('#harga_beli').val(data.harga_beli);
-           $('#diskon').val(data.diskon);
-           $('#harga_jual').val(data.harga_jual);
-           $('#stok').val(data.stok);
+           $('#id').val(data.id_member);
+           $('#kode').val(data.kode_member).attr('readonly', true);
+           $('#nama').val(data.nama);
+           $('#telepon').val(data.telepon);
+           $('#alamat').val(data.alamat);
        },
        error : function(){
            alert("Tidak dapat menampilkan data");
