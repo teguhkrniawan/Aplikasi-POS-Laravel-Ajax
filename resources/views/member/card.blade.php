@@ -19,15 +19,15 @@
 
         .kode {
             position: absolute;
-            top: 110pt;
-            left: 10pt;
+            top: 90pt;
+            left: 15pt;
             color: #fff;
             font-size: 15pt;
         }
 
         .barcode {
             position: absolute;
-            top: 15pt;
+            top: -3pt;
             left: 280pt;
             font-size: 10pt
         }
@@ -40,7 +40,14 @@
         <tr>
             <td align="center">
                 <div class="box">
-                    <img src="{{ asset('images/card.png') }}" alt="">
+                    <img src="{{ asset('images/card.png') }}" class="card">
+                    <div class="kode">{{ $data->nama }}</div>
+                    <div class="barcode">
+                        <img src="data:image/png;base64, {{ DNS1D::getBarcodePNG( $data->kode_member, 'C39' ) }}"
+                            height="30" width="130" alt="">
+                        <span>
+                            {{ $data->kode_member }}
+                    </div>
                 </div>
             </td>
         </tr>
