@@ -131,7 +131,8 @@
                             <span>Member</span></a></li>
                     <li><a href="{{ route('supplier.index') }}"><i class="fa fa-truck"></i> <span>Supplier</span></a>
                     </li>
-                    <li><a href="#"><i class="fa fa-money"></i> <span>Pengeluaran</span></a></li>
+                    <li><a href="{{ route('pengeluaran.index') }}"><i class="fa fa-money"></i>
+                            <span>Pengeluaran</span></a></li>
                     <li><a href="#"><i class="fa fa-user"></i> <span>User</span></a></li>
                     <li><a href="#"><i class="fa fa-upload"></i> <span>Penjualan</span></a></li>
                     <li><a href="#"><i class="fa fa-download"></i> <span>Pembelian</span></a></li>

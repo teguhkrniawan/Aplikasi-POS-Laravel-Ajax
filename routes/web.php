@@ -30,4 +30,7 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
     Route::get('member/data', 'MemberController@listData')->name('member.data');
     Route::post('member/cetak', 'MemberController@printCard');
     Route::resource('member', 'MemberController');
+
+    Route::get('pengeluaran/data', 'PengeluaranController@listData')->name('pengeluaran.data');
+    Route::resource('pengeluaran', 'PengeluaranController');
 });
