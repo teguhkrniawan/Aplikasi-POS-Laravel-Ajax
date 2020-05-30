@@ -39,10 +39,10 @@ class UserController extends Controller
             $row[] = $list->name;
             $row[] = $list->email;
             $row[] = '<div class="btn-group">
-                       <a onClick="editForm('.$list->id_pengeluaran.')" class="btn btn-primary btn sm">
+                       <a onClick="editForm('.$list->id.')" class="btn btn-primary btn sm">
                            <i class="fa fa-pencil"></i>
                        </a>
-                       <a onClick="deleteData('.$list->id_pengeluaran.')" class="btn btn-danger btn sm">
+                       <a onClick="deleteData('.$list->id.')" class="btn btn-danger btn sm">
                            <i class="fa fa-trash"></i>
                        </a>
                      </div>';
@@ -62,15 +62,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $user->name = $request['nama'];
+        $user->email = $request['email'];
+        $user->password = bcrypt($request['password1']);
+        $user->level = 2;
+        $user->foto = "user.png";
+        $user->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -84,7 +84,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        echo json_encode($user);
     }
 
     /**
@@ -96,7 +97,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->name = $request['nama'];
+        $user->email = $request['email'];
+        if (!empty($request['password1'])) {
+            $user->password = bcrypt($request['password1']);
+        }
+        $user->update();
     }
 
     /**
@@ -107,6 +114,41 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+    }
+
+    public function profil(){
+        $user = Auth::user();
+        return view ('user.profil', compact('user'));
+    }
+
+    public function changeProfil(Request $request, $id){
+        $msg = "success";
+        $user = User::find($id);
+
+        if (!empty($request['password1'])) {
+            if (Hash::check($request['passwordLama'], $user->password)) {
+                $user->password = bcrypt($request['password1']);
+            }else {
+                $msg = "error";
+            }
+        }
+
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $nama_gambar = "fotouser_".$id.".".$file->getClientOriginalExtension();
+            $lokasi = public_path('images');
+
+            $file->move($lokasi, $nama_gambar);
+            $user->foto = $nama_gambar;
+
+            $datagambar = $nama_gambar;
+        } else {
+            $datagambar = $user->foto;
+        }
+
+        $user->update();
+        echo json_encode(array('msg'=>$msg, 'url'=> asset('images/'.$datagambar)));
     }
 }

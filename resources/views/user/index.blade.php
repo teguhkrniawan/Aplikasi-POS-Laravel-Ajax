@@ -39,12 +39,13 @@ Daftar User (kasir)
     </div>
 </div>
 
-{{-- @include('pengeluaran.form') --}}
+@include('user.form')
 @endsection
 
 @section('script')
 <script type="text/javascript">
     var table, save_method;
+
 
 $(function() {
 
@@ -64,9 +65,9 @@ $(function() {
             var id = $('#id').val();
 
             if(save_method == "add")
-                url = "{{ route('pengeluaran.store') }}";
+                url = "{{ route('user.store') }}";
             else 
-                url = "pengeluaran/"+id;
+                url = "user/"+id;
             
             $.ajax({
                 url : url,
@@ -91,14 +92,16 @@ function addForm(){
     $('input[name=_method]').val('POST');
     $('#modal-form').modal('show');
     $('#modal-form form')[0].reset();
-    $('.modal-title').text('Tambah Daftar Pengeluaran');
+    $('.modal-title').text('Tambah User');
+    $('#password').attr('required', true);
+    $('#password1').attr('required', true);
 };
 
 // function hapus data
 function deleteData(id){
     if(confirm("Apakah yakin ingin dihapus ?")){
         $.ajax({
-            url : "pengeluaran/"+id,
+            url : "user/"+id,
             type : "POST",
             data : {'_method' : 'DELETE', '_token' : $('meta[name=csrf_token]').attr('content')},
             success : function(data){
@@ -117,16 +120,18 @@ function editForm(id){
    $('input[name=_method').val('PATCH');
    $('#modal-form form')[0].reset();
    $.ajax({
-       url : "pengeluaran/"+id+"/edit",
+       url : "user/"+id+"/edit",
        type : "GET",
        dataType : "JSON",
        success : function(data){
            $('#modal-form').modal('show');
-           $('.modal-title').text('Edit Pengeluaran');
+           $('.modal-title').text('Edit User');
 
-           $('#id').val(data.id_pengeluaran);
-           $('#jenis').val(data.jenis_pengeluaran);
-           $('#nominal').val(data.nominal);
+           $('#id').val(data.id);
+           $('#nama').val(data.name);
+           $('#email').val(data.email);
+           $('#password').removeAttr('required');
+           $('#password1').removeAttr('required');
        },
        error : function(){
            alert("Tidak dapat menampilkan data");

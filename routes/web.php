@@ -13,6 +13,8 @@
 
 Auth::routes(); //route autentikasi (login, register, logout)
 Route::get('/', 'HomeController@index')->name('home'); //route home biasa
+Route::get('user/profil', 'UserController@profil')->name('user.profil')->middleware('auth');
+Route::patch('user/{id}/change', 'UserController@changeProfil')->middleware('auth');
 
 // Route middleware - hak akses admin
 Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
@@ -37,10 +39,10 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
     // route untuk manipulasi data kasir
     Route::get('user/data', 'UserController@listData')->name('user.data');
     Route::resource('user', 'UserController');
+
+    Route::get('pembelian/data', 'PembelianController@listData')->name('pembelian.data');
+    Route::get('pembelian/{id}/tambah', 'PembelianController@create');
+    Route::get('pembelian/{id}/lihat', 'PembelianController@show');
+    Route::resource('pembelian', 'PembelianController');
 });
 
-// Route untuk edit profil ketika login
-Route::group(['middleware' => 'web'], function(){
-    Route::get('user/profil', 'UserController@profil')->name('user.profil');
-    Route::patch('user/{id}/change', 'UserController@changeProfil');
-});
