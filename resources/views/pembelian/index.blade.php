@@ -19,7 +19,7 @@ Daftar Pembelian
                     </i> Transaksi Baru
                 </a>
                 @if (!empty(session('idpembelian')))
-                <a onclick="#" class="btn btn-info"><i class="fa fa-plus-circle">
+                <a href="{{ route('pembelian_detail.index') }}" class="btn btn-info"><i class="fa fa-plus-circle">
                     </i> Transaksi Aktif
                 </a>
                 @endif

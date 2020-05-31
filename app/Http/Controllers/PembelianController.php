@@ -69,9 +69,20 @@ class PembelianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $pembelian = new Pembelian;
+        $pembelian->id_supplier = $id;
+        $pembelian->total_item = 0;
+        $pembelian->total_harga = 0;
+        $pembelian->diskon = 0;
+        $pembelian->bayar = 0;
+        $pembelian->save();
+
+        session(['idpembelian' => $pembelian->id_pembelian]);
+        session(['idsupplier' => $id]);
+
+        return Redirect::route('pembelian_detail.index');
     }
 
     /**
@@ -92,6 +103,7 @@ class PembelianController extends Controller
     public function show($id)
     {
        $detail = PembelianDetail::leftJoin('produk', 'produk.kode_produk', '=', 'pembelian_detail.kode_produk')
+                 ->select('pembelian_detail.*', 'pembelian_detail.harga_beli as harga', 'produk.nama_produk as nama')
                  ->where('id_pembelian', '=', $id)
                  ->get();
 
@@ -103,10 +115,10 @@ class PembelianController extends Controller
             $row = array();
             $row[] = $no;
             $row[] = $list->kode_produk;
-            $row[] = $list->nama_produk;
-            $row[] = "Rp. ".format_uang($list->harga_beli);
+            $row[] = $list->nama;
+            $row[] = "Rp. ".format_uang($list->harga);
             $row[] = $list->jumlah;
-            $row[] = "Rp. ".format_uang($list->harga_beli * $list->jumlah);
+            $row[] = "Rp. ".format_uang($list->harga * $list->jumlah);
             
             $data[] = $row;
         }

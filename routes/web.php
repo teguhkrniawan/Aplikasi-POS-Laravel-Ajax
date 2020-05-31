@@ -40,9 +40,16 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
     Route::get('user/data', 'UserController@listData')->name('user.data');
     Route::resource('user', 'UserController');
 
+    // Route untuk manipulasi data pembelian
     Route::get('pembelian/data', 'PembelianController@listData')->name('pembelian.data');
     Route::get('pembelian/{id}/tambah', 'PembelianController@create');
     Route::get('pembelian/{id}/lihat', 'PembelianController@show');
     Route::resource('pembelian', 'PembelianController');
+
+    // Route untuk manipulasi detail pembelian
+    Route::get('pembelian_detail/{id}/data', 'PembelianDetailController@listData')->name('pembelian_detail.data');
+    Route::get('pembelian_detail/loadform/{diskon}/{total}', 'PembelianDetailController@loadForm');
+    Route::resource('pembelian_detail', 'PembelianDetailController');
+
 });
 
