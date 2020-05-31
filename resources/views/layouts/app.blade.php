@@ -136,7 +136,8 @@
                             <span>Pengeluaran</span></a></li>
                     <li><a href="{{ route('user.index')}}"><i class="fa fa-user"></i> <span>User</span></a></li>
                     <li><a href="#"><i class="fa fa-upload"></i> <span>Penjualan</span></a></li>
-                    <li><a href="#"><i class="fa fa-download"></i> <span>Pembelian</span></a></li>
+                    <li><a href="{{ route('pembelian.index') }}"><i class="fa fa-download"></i>
+                            <span>Pembelian</span></a></li>
                     <li><a href="#"><i class="fa fa-file-pdf-o"></i> <span>Laporan</span></a></li>
                     <li><a href="#"><i class="fa fa-gear"></i> <span>Setting</span></a></li>
                     @else
