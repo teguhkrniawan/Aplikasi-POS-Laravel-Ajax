@@ -67,6 +67,10 @@ class PembelianDetailController extends Controller
         }
 
         // TODO : Span kotak total bayar
+        $data[] = array
+        ("<span class='hide total'>$total</span>",
+         "<span class='hide totalitem'>$total_item</span>",
+         "", "", "", "" ,"", "");
 
         // output data
         $output = array("data" => $data);
@@ -122,7 +126,12 @@ class PembelianDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nama_input = "jumlah_".$id;
+        $detail = PembelianDetail::find($id);
+        $detail->jumlah = $request[$nama_input];
+        $detail->sub_total = $detail->harga_beli * $request['nama_input'];
+        $detail->update();
+
     }
 
     /**
@@ -133,6 +142,20 @@ class PembelianDetailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $detail = PembelianDetail::find($id);
+        $detail->delete();
     }
+
+     // method perhitungan diskon dan konversi angka ke tulisan
+     public function loadForm($diskon, $total){
+        $bayar = $total  - ($diskon/100 * $total);
+        $data = array(
+            "totalrp" => format_uang($total),
+            "bayar"   => $bayar,
+            "bayarrp" => format_uang($bayar),
+            "terbilang" => ucwords(terbilang($bayar)). " Rupiah"
+        );
+        return response()->json($data);
+    }
+
 }

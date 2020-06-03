@@ -75,6 +75,60 @@ Transaksi Pembelian
                     </table>
                 </form>
                 {{-- END FORM KERANJANG --}}
+
+                {{-- Start tampil box total bayar --}}
+                <div class="col-md-8">
+                    <div id="tampil-bayar" style="background: #dd4b39;
+                                    color: #fff;
+                                    font-size: 60px;
+                                    text-align: center;
+                                    height: 100px">
+                    </div>
+                    <div id="tampil-terbilang" style="background: #3c8dbc;
+                                    color: #fff;
+                                    font-weight: bold;
+                                    padding: 10px">
+                    </div>
+                </div>
+                {{-- End tampil box total bayar --}}
+
+                {{-- start disamping box total bayar --}}
+                <div class="col-md-4">
+                    <form class="form form-horizontal form-pembelian" method="POST"
+                        action="{{ route('pembelian.store') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="idpembelian" id="idpembelian" value="{{ $idpembelian }}">
+                        <input type="hidden" name="total" id="total">
+                        <input type="hidden" name="totalitem" id="totalitem">
+                        <input type="hidden" name="bayar" id="bayar">
+
+                        <div class="form-group">
+                            <label for="totalrp" class="col-md-4 control-label">Total Harga</label>
+                            <div class="col-md-6">
+                                <input type="text" name="totalrp" id="totalrp" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="diskon" class="col-md-4 control-label">Diskon</label>
+                            <div class="col-md-6">
+                                <input type="number" name="diskon" id="diskon" value="0" class="form-control">
+                                <span class="help-block">*Tekan Enter Untuk Hitung</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bayarrp" class="col-md-4 control-label">Total Bayar</label>
+                            <div class="col-md-6">
+                                <input type="text" name="bayarrp" id="bayarrp" readonly class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {{-- end disamping box total bayar --}}
+            </div>
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right simpan"><i class="fa fa-floppy-o">
+                        Simpan Transaksi</i></button>
             </div>
         </div>
     </div>
@@ -100,6 +154,8 @@ $(function() {
             "url" : "{{ route('pembelian_detail.data', $idpembelian) }}",
             "type" : 'GET'
         }
+    }).on('draw.dt', function() {
+       loadForm($('#diskon').val()); 
     });
     
    // Menghindari submit form saat dienter pada kode produk dan jumlah
@@ -111,18 +167,33 @@ $(function() {
         return false;
    });
 
+   // Trigger ketika select diskon dan jumlah diubah
+   $('#diskon').change(function(){
+        if($(this).val == "")
+            $(this).val(0).select();
+        loadForm($(this).val());
+   })
+
+   // ketika tekan button simpan transasksi
+   $('.simpan').click(function(){
+        $('.form-pembelian').submit();
+   });
+
 });
 
+// Menampilkan produk ketika klik button (...)
 function showProduct(){
     $('#modal-produk').modal('show');
 }
 
+// method ketika klik pilih produk
 function selectItem(kode){
     $('#kode').val(kode);
     $('#modal-produk').modal('hide');
     addItem();
 }
 
+// Menambahkan item ke form-keranjang
 function addItem(){
     $.ajax({
         url :  "{{ route('pembelian_detail.store') }}",
@@ -140,12 +211,30 @@ function addItem(){
     });
 }
 
+// method hitungan ketika terjadi perubahan pada text input jumlah
+function changeCount(id){
+    $.ajax({
+        url : "pembelian_detail/"+id,
+        type : "POST",
+        data : $('.form-keranjang').serialize(),
+        success : function(data){
+            $('#kode').val('').focus();
+            table.ajax.reload(function(){
+                loadForm($('#diskon').val());
+            });
+        }, error : function(){
+            alert("Gagal jalankan method changeCount");
+        }
+    });
+}
+
+
 
 // function hapus data
-function deleteData(id){
+function deleteItem(id){
     if(confirm("Apakah yakin ingin dihapus ?")){
         $.ajax({
-            url : "pengeluaran/"+id,
+            url : "pembelian_detail/"+id,
             type : "POST",
             data : {'_method' : 'DELETE', '_token' : $('meta[name=csrf_token]').attr('content')},
             success : function(data){
@@ -158,28 +247,29 @@ function deleteData(id){
     }
 }
 
-// function tampil form edit
-function editForm(id){
-   save_method = "edit";
-   $('input[name=_method').val('PATCH');
-   $('#modal-form form')[0].reset();
-   $.ajax({
-       url : "pengeluaran/"+id+"/edit",
-       type : "GET",
-       dataType : "JSON",
-       success : function(data){
-           $('#modal-form').modal('show');
-           $('.modal-title').text('Edit Pengeluaran');
+// function loadForm untuk menampilkan total harga
+function loadForm(diskon=0){
+    $('#total').val($('.total').text());
+    $('#totalitem').val($('.totalitem').text());
 
-           $('#id').val(data.id_pengeluaran);
-           $('#jenis').val(data.jenis_pengeluaran);
-           $('#nominal').val(data.nominal);
-       },
-       error : function(){
-           alert("Tidak dapat menampilkan data");
-       }
-   });
+    $.ajax({
+        url : "pembelian_detail/loadform/"+diskon+"/"+$('.total').text(),
+        type : "GET",
+        dataType : "JSON",
+        success : function(data){
+            $('#tampil-bayar').text("Rp. " +data.bayarrp);
+            $('#tampil-terbilang').text(data.terbilang);
+            $('#totalrp').val("Rp. "+data.totalrp);
+            $('#bayarrp').val("Rp. "+data.bayarrp);
+            $('#bayar').val(data.bayar);
+            //$('#total_item').val(data.totalitem);
+        },
+        error : function(){
+            alert("Tidak dapat menampilkan data (log.e : loadForm");
+        }
+    });
 }
+
    
 </script>
 @endsection

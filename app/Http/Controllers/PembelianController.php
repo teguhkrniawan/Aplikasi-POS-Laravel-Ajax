@@ -57,6 +57,7 @@ class PembelianController extends Controller
                        </a>
                      </div>';
            $data[] = $row;
+
         }
 
         $output = array("data" => $data);
@@ -93,7 +94,14 @@ class PembelianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pembelian = Pembelian::find($request['idpembelian']);
+        $pembelian->total_item = $request['totalitem'];
+        $pembelian->total_harga = $request['total'];
+        $pembelian->diskon = $request['diskon'];
+        $pembelian->bayar = $request['bayar'];
+        $pembelian->update();
+
+        return Redirect::route('pembelian.index');
     }
 
     /**
@@ -149,7 +157,9 @@ class PembelianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nama_input = "jumlah_".$id;
+        $detail->id_pembelian = $request['idpembelian'];
+        $detail->kode_produk = $request['kode'];
     }
 
     /**
@@ -165,10 +175,10 @@ class PembelianController extends Controller
 
         $detail = PembelianDetail::where('id_pembelian', '=', $id)
                   ->get();
-        foreach ($detail as $data ) {
-            $produk = Produk::where('kode_produk', '=', $data->kode_produk)->first();
-            $produk->stok -= $data->jumlah;
-            $produk->update();
+        foreach ($detail as $data) {
+            // $produk = Produk::where('kode_produk', '=', $data->kode_produk)->first();
+            // $produk->stok -= $data->jumlah;
+            // $produk->update();
             $data->delete();
         }
     }
