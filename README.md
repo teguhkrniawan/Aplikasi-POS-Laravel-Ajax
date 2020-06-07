@@ -1,1 +1,1 @@
-# Aplikasi-POS-Laravel-Ajax-
+# Aplikasi-POS-Laravel-Ajax
