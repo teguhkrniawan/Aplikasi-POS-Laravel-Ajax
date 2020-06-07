@@ -1,5 +1,5 @@
-*.php linguist-detectable=true
-*.js linguist-detectable=true
-*.html linguist-detectable=true
-*.xml linguist-detectable=false
-CHANGELOG.md export-ignore
+# Vendored dependencies
+- third[-_]?party/
+- 3rd[-_]?party/
+- vendors?/
+- extern(al)?/
