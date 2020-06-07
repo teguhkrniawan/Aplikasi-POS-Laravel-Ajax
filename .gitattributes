@@ -1,5 +1,8 @@
-# Vendored dependencies
-- third[-_]?party/
-- 3rd[-_]?party/
-- vendors?/
-- extern(al)?/
+# PHP
+*.php text
+*.phpt text
+*.phtml text
+*.twig text
+.htaccess text
+.ht text
+*.phar binary
