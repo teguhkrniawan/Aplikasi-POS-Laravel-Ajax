@@ -102,6 +102,7 @@ class PembelianController extends Controller
         $pembelian->update();
 
         return Redirect::route('pembelian.index');
+        
     }
 
     /**
