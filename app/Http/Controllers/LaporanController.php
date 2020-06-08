@@ -68,7 +68,7 @@ class LaporanController extends Controller
             "",
             "",
             "Total Pendapatan",
-            format_uang($total_pendapatan)
+            "Rp. ".format_uang($total_pendapatan)
         );
 
         return $data;
@@ -86,7 +86,7 @@ class LaporanController extends Controller
     }
 
     /**
-     * Method ini dipakai untuk manampilkan data ke tabel
+     * Method listData dipakai untuk manampilkan data ke tabel
      * melalui function ajax pada file ajax
      * 
      * parameternya $awal = tanggal awal yang didapatkan dari indexnya
@@ -105,8 +105,26 @@ class LaporanController extends Controller
         return response()->json($output);
     }
 
-    public function exportPDF(){
+    /**
+     * Method exportPDF dipakai untuk membuat tabel-laporan menjadi
+     * file dokumen berektensi .pdf
+     */
+    public function exportPDF($awal,$akhir){
         
+        // variabel dibawah ini akan menampung parameter $awal dan $akhir
+        $tanggal_awal = $awal;
+        $tanggal_akhir = $akhir;
+
+         // variabel data akan menampung nilai return dari method getData()
+         $data = $this->getData($awal, $akhir);
+
+         // sintaks dibawah merupakan cara agar bisa meload data dalam bentuk .pdf
+         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+         $pdf = PDF::loadView('laporan.pdf', compact('tanggal_awal', 'tanggal_akhir', 'data'));
+         $pdf->setPaper('a4', 'potrait');
+
+         // jadikan bentuk pdf
+         return $pdf->stream();
     }
 
 }
