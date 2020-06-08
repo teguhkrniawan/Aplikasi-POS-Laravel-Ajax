@@ -37,7 +37,7 @@ Transaksi Pembelian
 
                 <hr>
                 {{-- STRAT FORM PRODUK --}}
-                <form class="form form-horizontal form-produk" method="POST">
+                <form class="form form-horizontal form-produk" method="POST" id="form-produk">
                     {{ csrf_field() }}
                     <input type="hidden" name="idpembelian" id="idpembelian" value="{{ $idpembelian }}">
 
@@ -45,6 +45,7 @@ Transaksi Pembelian
                         <label class="col-md-2 control-label" for="kode">Kode Produk</label>
                         <div class="col-md-5">
                             <div class="input-group">
+                                <input type="hidden" name="id" id="id" class="form-control" autofocus required>
                                 <input type="text" name="kode" id="kode" class="form-control" autofocus required>
                                 <span class="input-group-btn">
                                     <button type="button" onclick="showProduct()" class="btn btn-info">...</button>
@@ -56,12 +57,13 @@ Transaksi Pembelian
                 {{-- END FORM PRODUK --}}
                 {{-- =================================================== --}}
                 {{-- START FORM KERANJANG --}}
-                <form class="form-keranjang">
+                <form class="form-keranjang" id="form-keranjang">
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
                     <table class="table table-striped tabel-pembelian">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th width="20">No</th>
                                 <th>Kode Produk</th>
                                 <th>Nama Produk</th>
@@ -189,6 +191,7 @@ function showProduct(){
 // method ketika klik pilih produk
 function selectItem(kode){
     $('#kode').val(kode);
+    //$('#id').val(16);
     $('#modal-produk').modal('hide');
     addItem();
 }
@@ -200,7 +203,8 @@ function addItem(){
         type : "POST",
         data : $('.form-produk').serialize(),
         success : function(data){
-            $('#kode').val('').focus();
+            //$('#kode').val('').focus();
+            //$('#id').val('').focus();
             table.ajax.reload(function(){
                  //loadForm diskon
             });
@@ -212,13 +216,20 @@ function addItem(){
 }
 
 // method hitungan ketika terjadi perubahan pada text input jumlah
-function changeCount(id){
+
+/*
+* parameter id dan id_produk didapatkan dari method list data pada PembelianDetailController
+* lihat bagian textfield jumlah pada atribut onChange disana diberi sebuah function changeCount
+*/
+function changeCount(id, id_produk){ // id = id_detail_pembelian
+    
     $.ajax({
         url : "pembelian_detail/"+id,
         type : "POST",
-        data : $('.form-keranjang').serialize(),
+        data : $('#form-keranjang, #form-produk').serialize(),
         success : function(data){
-            $('#kode').val('').focus();
+            //$('#kode').val('').focus();
+            //$('#id').val('').focus();
             table.ajax.reload(function(){
                 loadForm($('#diskon').val());
             });
@@ -228,6 +239,9 @@ function changeCount(id){
     });
 }
 
+// function nilaiID(id_produk){
+//     $('#produk_id').val(id_produk);
+// }
 
 
 // function hapus data

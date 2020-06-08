@@ -51,5 +51,17 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
     Route::get('pembelian_detail/loadform/{diskon}/{total}', 'PembelianDetailController@loadForm');
     Route::resource('pembelian_detail', 'PembelianDetailController');
 
+    // Route untuk manipulasi penjualan
+    Route::get('penjualan/data', 'PenjualanController@listData')->name('penjualan.data');
+    Route::get('penjualan/{id}/lihat', 'PenjualanController@show');
+    Route::resource('penjualan', 'PenjualanController');
+
+    // Route Laporan
+    Route::get('laporan',  'LaporanController@index')->name('laporan.index');
+    Route::get('laporan/data/{awal}/{akhir}',  'LaporanController@listData')->name('laporan.data');
+    Route::get('laporan/pdf/{awal}/{akhir}',  'LaporanController@exportPDF');
+    Route::post('laporan',  'LaporanController@refresh')->name('laporan.refresh');
+
+
 });
 

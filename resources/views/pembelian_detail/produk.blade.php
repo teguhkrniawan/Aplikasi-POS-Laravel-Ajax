@@ -25,7 +25,7 @@
                             <td>{{ $data->nama_produk }}</td>
                             <td>Rp. {{ format_uang($data->harga_beli) }}</td>
                             <td>
-                                <a onclick="selectItem( {{$data->kode_produk}} )" class="btn btn-primary"><i
+                                <a onclick="selectItem({{$data->kode_produk}})" class="btn btn-primary"><i
                                         class="fa fa-check-circle"></i> Pilih</a>
                             </td>
                         </tr>
