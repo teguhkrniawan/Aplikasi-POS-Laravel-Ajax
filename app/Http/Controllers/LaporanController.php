@@ -127,4 +127,16 @@ class LaporanController extends Controller
          return $pdf->stream();
     }
 
+    /**
+     * Method refresh berguna untuk merefresh halaman controller laporan
+     * setelah user memilih ubah periode tanggal
+     */
+
+     public function refresh(Request $request){
+         $awal = $request['awal'];
+         $akhir = $request['akhir'];
+
+         return view('laporan.index', compact('awal', 'akhir'));
+     }
+
 }

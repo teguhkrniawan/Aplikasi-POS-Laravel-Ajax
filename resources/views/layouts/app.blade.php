@@ -198,6 +198,8 @@
         <script src="{{ asset('/adminLTE/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
         {{-- Validator --}}
         <script src="{{ asset('js/validator.js') }}"></script>
+        {{-- DatePicker --}}
+        <script src="{{ asset('/adminLTE/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 
         @yield('script')
 </body>

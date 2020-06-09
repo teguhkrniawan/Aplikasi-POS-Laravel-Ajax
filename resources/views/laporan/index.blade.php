@@ -45,14 +45,20 @@ Laporan Pendapatan {{ tanggal_indonesia($awal, false) }} s/d {{ tanggal_indonesi
     </div>
 </div>
 
-{{-- @include('pengeluaran.form') --}}
+@include('laporan.form')
 @endsection
 
 @section('script')
 <script type="text/javascript">
-    var table, awal, akhir;
+    var table;
 
 $(function() {
+
+    // menampilkan date picker
+    $('#awal, #akhir').datepicker({
+        format : 'yyyy-mm-dd',
+        autoclose :  true
+    });
 
     // function tampil data pada tabel-laporan
     table = $('.tabel-laporan').DataTable({
@@ -69,12 +75,9 @@ $(function() {
 });
 
 // function tampil form tambah
-function addForm(){
-    save_method = "add";
-    $('input[name=_method]').val('POST');
+function periodeForm(){
     $('#modal-form').modal('show');
-    $('#modal-form form')[0].reset();
-    $('.modal-title').text('Tambah Daftar Pengeluaran');
+    $('.modal-title').text('Filter Tanggal Laporan');
 };
 
 
