@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth', 'cekuser:1']], function(){
     Route::get('laporan/pdf/{awal}/{akhir}',  'LaporanController@exportPDF');
     Route::post('laporan',  'LaporanController@refresh')->name('laporan.refresh');
 
+    // Route Setting 
+    Route::resource('setting', 'SettingController');
 
 });
 

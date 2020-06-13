@@ -141,7 +141,7 @@
                             <span>Pembelian</span></a></li>
                     <li><a href="{{ route('laporan.index') }}"><i class="fa fa-file-pdf-o"></i> <span>Laporan</span></a>
                     </li>
-                    <li><a href="#"><i class="fa fa-gear"></i> <span>Setting</span></a></li>
+                    <li><a href="{{ route('setting.index') }}"><i class="fa fa-gear"></i> <span>Setting</span></a></li>
                     @else
                     <li><a href="#"><i class="fa fa-shopping-cart"></i> <span>Transaksi</span></a></li>
                     <li><a href="#"><i class="fa fa-cart-plus"></i> <span>Transaksi Baru</span></a></li>
