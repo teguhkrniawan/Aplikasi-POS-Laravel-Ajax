@@ -108,22 +108,15 @@ $(function(){
         if (!e.isDefaultPrevented()) {
             // Upload file dengana AJAX
             $.ajax({
-                url : "{{ Auth::user()->id }}/change",
+                url : "setting/1",
                 type : "POST",
                 data : new FormData($(".form")[0]),
-                dataType : "JSON",
                 async : false,
                 processData : false,
                 contentType : false,
                 success : function(data) {
-                    if(data.msg == "error"){
-                        alert('Password lama salah');
-                        $('passwordLama').focus().select();
-                    } else {
-                        d =  new Date();
-                        $('.alert').css('display', 'block').delay(2000).fadeOut();
-                        $('.tampil-foto img, .user-image, .img-circle').attr('src', data.url+'?'+d.getTime());
-                    }
+                    showData();
+                    $('.alert').css('display', 'block').delay(2000).fadeOut();
                 }, 
                 error : function(){
                     alert('Tidak dapat menyimpan data');
