@@ -54,6 +54,7 @@ Pengaturan
                         <label for="logo" class="col-md-2 control-label">Logo</label>
                         <div class="col-md-4">
                             <input type="file" name="logo" id="logo" class="form-control">
+                            <br>
                             <div class="tampil-logo"></div>
                         </div>
                     </div>
@@ -62,6 +63,7 @@ Pengaturan
                         <label for="card" class="col-md-2 control-label">Design Card Member</label>
                         <div class="col-md-4">
                             <input type="file" name="card" id="card" class="form-control">
+                            <br>
                             <div class="tampil-card"></div>
                         </div>
                     </div>
@@ -100,16 +102,7 @@ Pengaturan
     // function utama
 $(function(){
 
-    // Saat input text password lama dikasi event atau ditrigger
-    $('#passwordLama').keyup(function(){
-        if ($(this).val() != '') {
-            $('#passwordBaru').attr('required', true);
-            $('#password1').attr('required', true);
-        } else {
-            $('#passwordBaru').attr('required', false);
-            $('#password1').attr('required', false);
-        }   
-    });
+   showData();
 
     $('.form').validator().on('submit', function(e){
         if (!e.isDefaultPrevented()) {
@@ -141,6 +134,28 @@ $(function(){
     });
 
 });
+
+function showData() {
+    $.ajax({
+        url : "setting/1/edit",
+        type : "GET",
+        dataType : "JSON",
+        success : function(data){
+            $('#nama').val(data.nama_perusahaan);
+            $('#alamat').val(data.alamat);
+            $('#telepon').val(data.telepon);
+            $('#diskon').val(data.diskon_member);
+            $('#tipe_nota').val(data.tipe_nota);
+
+            d = new Date();
+            $('.tampil-logo').html('<img src="images/'+data.logo+'?'+d.getTime()+'" width="200">');
+            $('.tampil-card').html('<img src="images/'+data.kartu_member+'?'+d.getTime()+'" width="200">');
+        },
+        error : function() {
+            alert("Tidak dapat menampilkan data")
+        }
+    });
+}
 
 
 </script>

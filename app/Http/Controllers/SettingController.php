@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Setting;
 
 class SettingController extends Controller
 {
@@ -56,7 +57,8 @@ class SettingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $setting = Setting::find($id);
+        echo json_encode($setting);
     }
 
     /**
