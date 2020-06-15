@@ -200,7 +200,8 @@
         <script src="{{ asset('js/validator.js') }}"></script>
         {{-- DatePicker --}}
         <script src="{{ asset('/adminLTE/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
-
+        {{-- Char JS --}}
+        <script src="{{ asset('/adminLTE/plugins/chartjs/Chart.min.js') }}"></script>
         @yield('script')
 </body>
 
